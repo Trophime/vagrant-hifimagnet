@@ -1,0 +1,67 @@
+    1  sudo ls /vagrant/
+    2  ls /vagrant
+    
+    3  sudo cp /vagrant/lncmi.list /etc/apt/sources.list.d
+    5  sudo apt-get install debian-keyring
+    6  sudo cp /usr/share/keyrings/debian-maintainers.gpg /etc/apt/trusted.gpg.d/
+    9  sudo apt-get update
+
+   13  sudo apt-get install libpetsc3.7.3-dev libslepc3.7.2-dev
+   16  sudo apt-get install gmsh-tetgen python-gmsh-tetgen
+   
+   19  sudo apt-get install libfreesteam-dev
+   21  sudo apt-get install libexpokit-dev
+   23  sudo apt-get install fadbad++
+   25  sudo apt-get install libsphere-dev
+   26  sudo apt-get install libpopt-dev
+   28  sudo apt-get install libjson-spirit-dev
+   44  sudo apt-get install swig
+   46  sudo apt-get install libmatheval-dev
+   49  sudo apt-get install libyaml-cpp-dev
+   51  sudo apt-get install libjsoncpp-dev
+
+   # replace cblas par gslcbals dans freesteam.pc
+   75  grep cblas /usr/lib/pkgconfig/*
+   76  sudo vi /usr/lib/pkgconfig/freesteam.pc
+   77  make 
+
+   29  git clone https://github.com/feelpp/feelpp.git
+   30  cd feelpp/research/
+   31  git clone https://github.com/feelpp/hifimagnet.git
+
+   33  mkdir -p feelpp_build
+   34  cd feelpp_build/
+   36  pushd ~/feelpp/research/hifimagnet/
+   54  git checkout merge/json_bmap
+   37  cd MagnetTools/
+   39  export LC_ALL="C"
+   40  ./autogen.sh
+   41  popd
+   
+
+   59  mkdir -p contrib/MagnetTools-compile
+   60  cd contrib/MagnetTools-compile/
+   78  $HOME/feelpp/research/hifimagnet/MagnetTools/configure  --prefix=/$HOME/feelpp_build/contrib/MagnetTools  CXX=g++  
+   79  make
+   80  make install
+   81  cd ../..
+   
+   87  sudo apt-get install clang-3.6 clang-3.7
+  101  sudo apt-get install libboost-mpi-python-dev libboost-signals-dev libboost-regex-dev 
+  103  sudo apt-get install libboost-test-dev
+  128  sudo apt-get install clang-3.8 
+  130  sudo apt-get remove libvtk6-dev 
+
+  126  scp trophime@euler:./feelpp_build/*.sh .
+
+  122  cmake ../feelpp   -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON   -DCMAKE_BUILD_TYPE=Release   -DCMAKE_CXX_COMPILER=/usr/bin/clang++-3.7   -DCMAKE_C_COMPILER=/usr/bin/clang-3.7 -DPYTHON_EXECUTABLE:FILEPATH=`which python`   -DFEELPP_ENABLE_RESEARCH_HIFIMAGNET=ON  -DMAGNETTOOLS_INCLUDES=$HOME/feelpp/research/hifimagnet/MagnetTools  -DMAGNETTOOLS_LIBDIR=$HOME/feelpp_build/contrib/MagnetTools/lib
+
+  123  cd testsuite/
+  124  make 
+  141  export LC_ALL="C"
+  142  ctest
+
+  149  cd ../research/hifimagnet/applications/
+  150  ls
+  151  cd ThermoElectricModel/
+  152  make feelpp_thermoelectric_model_3D_V1T1_N1

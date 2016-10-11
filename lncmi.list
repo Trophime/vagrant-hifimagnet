@@ -1,0 +1,2 @@
+deb http://euler/~trophime/debian/ jessie main # désactivé pour la mise à niveau vers xenial
+deb-src http://euler/~trophime/debian/ jessie main # désactivé pour la mise à niveau vers xenial
